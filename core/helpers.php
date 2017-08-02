@@ -469,7 +469,7 @@ function odin_get_image_url( $id, $width, $height, $crop = true, $upscale = fals
 /**
  * Custom post thumbnail.
  *
- * @since  2.2.1
+ * @since  2.2.0
  *
  * @param  int     $width   Width of the image.
  * @param  int     $height  Height of the image.
@@ -486,12 +486,11 @@ function odin_thumbnail( $width, $height, $alt = '', $crop = true, $class = '', 
 		return;
 	}
 
-	$thumb = get_post_thumbnail_id();
-	
-    ! empty( $alt ) || $alt = get_post_meta($thumb, '_wp_attachment_image_alt', true);
+	$thumb = get_post_thumbnail_id();	    
 	
 	if ( $thumb ) {
 		$image = odin_get_image_url( $thumb, $width, $height, $crop, $upscale );
+		! empty( $alt ) || $alt = get_post_meta($thumb, '_wp_attachment_image_alt', true);
 		$html  = '<img class="wp-image-thumb img-responsive ' . esc_attr( $class ) . '" src="' . esc_url( $image ) . '" width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" alt="' . esc_attr( $alt ) . '" />';
 
 		return apply_filters( 'odin_thumbnail_html', $html );
