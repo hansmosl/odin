@@ -469,25 +469,27 @@ function odin_get_image_url( $id, $width, $height, $crop = true, $upscale = fals
 /**
  * Custom post thumbnail.
  *
- * @since  2.2.0
+ * @since  2.2.1
  *
  * @param  int     $width   Width of the image.
  * @param  int     $height  Height of the image.
  * @param  string  $class   Class attribute of the image.
- * @param  string  $alt     Alt attribute of the image.
+ * @param  string  $alt     Alt attribute of the image. If left empty default alt of image is used.
  * @param  boolean $crop    Image crop.
  * @param  string  $class   Custom HTML classes.
  * @param  boolean $upscale Force the resize.
  *
  * @return string         Return the post thumbnail.
  */
-function odin_thumbnail( $width, $height, $alt, $crop = true, $class = '', $upscale = false ) {
+function odin_thumbnail( $width, $height, $alt = '', $crop = true, $class = '', $upscale = false ) {
 	if ( ! class_exists( 'Odin_Thumbnail_Resizer' ) ) {
 		return;
 	}
 
 	$thumb = get_post_thumbnail_id();
-
+	
+    ! empty( $alt ) || $alt = get_post_meta($thumb, '_wp_attachment_image_alt', true);
+	
 	if ( $thumb ) {
 		$image = odin_get_image_url( $thumb, $width, $height, $crop, $upscale );
 		$html  = '<img class="wp-image-thumb img-responsive ' . esc_attr( $class ) . '" src="' . esc_url( $image ) . '" width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" alt="' . esc_attr( $alt ) . '" />';
